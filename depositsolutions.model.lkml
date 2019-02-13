@@ -1,4 +1,4 @@
-connection: "connection_name"
+connection: "ds_snowflake"
 
 include: "*.view.lkml"                       # include all views in this project
 # include: "my_dashboard.dashboard.lookml"   # include a LookML dashboard called my_dashboard
@@ -17,3 +17,13 @@ include: "*.view.lkml"                       # include all views in this project
 #     sql_on: ${users.id} = ${orders.user_id} ;;
 #   }
 # }
+
+
+explore: f_depositor_tranche_balance_daily {
+  label: "Depositor Trance Balance Daily"
+  join: d_calendar_date {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${d_calendar_date.dates_date} = ${f_depositor_tranche_balance_daily.wh_created_date} ;;
+  }
+}
